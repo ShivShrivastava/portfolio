@@ -1,0 +1,171 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients for professional look -->
+    <linearGradient id="planGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="codeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="buildGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="testGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#43e97b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#38f9d7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="releaseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fa709a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fee140;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="deployGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#30cfd0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#330867;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="operateGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a8edea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fed6e3;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="monitorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9a9e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fecfef;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.2"/>
+      <feComposite in2="offsetblur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <style>
+    .devops-block {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .devops-block:hover {
+      transform: scale(1.1);
+      filter: url(#shadow) brightness(1.2);
+    }
+    .devops-text {
+      pointer-events: none;
+      user-select: none;
+    }
+    .arrow {
+      stroke-dasharray: 5, 5;
+      animation: dash 20s linear infinite;
+    }
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -100;
+      }
+    }
+    .center-text {
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+  </style>
+  
+  <!-- Background circle -->
+  <circle cx="200" cy="200" r="180" fill="none" stroke="rgba(79,124,255,0.1)" stroke-width="2"/>
+  <circle cx="200" cy="200" r="140" fill="none" stroke="rgba(79,124,255,0.05)" stroke-width="1"/>
+  
+  <!-- Plan Block -->
+  <g class="devops-block">
+    <rect x="160" y="40" width="80" height="60" rx="10" fill="url(#planGrad)" filter="url(#shadow)"/>
+    <text x="200" y="65" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white" class="devops-text">PLAN</text>
+    <text x="200" y="82" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Requirements</text>
+    <text x="200" y="94" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Architecture</text>
+  </g>
+  
+  <!-- Code Block -->
+  <g class="devops-block">
+    <rect x="280" y="80" width="80" height="60" rx="10" fill="url(#codeGrad)" filter="url(#shadow)"/>
+    <text x="320" y="105" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white" class="devops-text">CODE</text>
+    <text x="320" y="122" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Development</text>
+    <text x="320" y="134" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Version Control</text>
+  </g>
+  
+  <!-- Build Block -->
+  <g class="devops-block">
+    <rect x="320" y="180" width="80" height="60" rx="10" fill="url(#buildGrad)" filter="url(#shadow)"/>
+    <text x="360" y="205" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white" class="devops-text">BUILD</text>
+    <text x="360" y="222" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Compilation</text>
+    <text x="360" y="234" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Packaging</text>
+  </g>
+  
+  <!-- Test Block -->
+  <g class="devops-block">
+    <rect x="280" y="280" width="80" height="60" rx="10" fill="url(#testGrad)" filter="url(#shadow)"/>
+    <text x="320" y="305" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white" class="devops-text">TEST</text>
+    <text x="320" y="322" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Unit Testing</text>
+    <text x="320" y="334" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Integration</text>
+  </g>
+  
+  <!-- Release Block -->
+  <g class="devops-block">
+    <rect x="160" y="320" width="80" height="60" rx="10" fill="url(#releaseGrad)" filter="url(#shadow)"/>
+    <text x="200" y="345" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white" class="devops-text">RELEASE</text>
+    <text x="200" y="362" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Versioning</text>
+    <text x="200" y="374" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Documentation</text>
+  </g>
+  
+  <!-- Deploy Block -->
+  <g class="devops-block">
+    <rect x="40" y="280" width="80" height="60" rx="10" fill="url(#deployGrad)" filter="url(#shadow)"/>
+    <text x="80" y="305" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white" class="devops-text">DEPLOY</text>
+    <text x="80" y="322" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Infrastructure</text>
+    <text x="80" y="334" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Configuration</text>
+  </g>
+  
+  <!-- Operate Block -->
+  <g class="devops-block">
+    <rect x="0" y="180" width="80" height="60" rx="10" fill="url(#operateGrad)" filter="url(#shadow)"/>
+    <text x="40" y="205" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white" class="devops-text">OPERATE</text>
+    <text x="40" y="222" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Maintenance</text>
+    <text x="40" y="234" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Support</text>
+  </g>
+  
+  <!-- Monitor Block -->
+  <g class="devops-block">
+    <rect x="40" y="80" width="80" height="60" rx="10" fill="url(#monitorGrad)" filter="url(#shadow)"/>
+    <text x="80" y="105" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white" class="devops-text">MONITOR</text>
+    <text x="80" y="122" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Performance</text>
+    <text x="80" y="134" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white" opacity="0.8" class="devops-text">Analytics</text>
+  </g>
+  
+  <!-- Animated arrows showing circular flow -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4F7CFF" opacity="0.8"/>
+    </marker>
+  </defs>
+  
+  <!-- Curved arrows between stages -->
+  <path d="M 240 70 Q 270 70 290 85" fill="none" stroke="#4F7CFF" stroke-width="2" opacity="0.6" marker-end="url(#arrowhead)" class="arrow"/>
+  <path d="M 340 120 Q 360 150 360 180" fill="none" stroke="#4F7CFF" stroke-width="2" opacity="0.6" marker-end="url(#arrowhead)" class="arrow"/>
+  <path d="M 360 240 Q 340 270 320 290" fill="none" stroke="#4F7CFF" stroke-width="2" opacity="0.6" marker-end="url(#arrowhead)" class="arrow"/>
+  <path d="M 280 320 Q 250 330 220 330" fill="none" stroke="#4F7CFF" stroke-width="2" opacity="0.6" marker-end="url(#arrowhead)" class="arrow"/>
+  <path d="M 160 330 Q 130 320 110 310" fill="none" stroke="#4F7CFF" stroke-width="2" opacity="0.6" marker-end="url(#arrowhead)" class="arrow"/>
+  <path d="M 60 280 Q 40 250 40 220" fill="none" stroke="#4F7CFF" stroke-width="2" opacity="0.6" marker-end="url(#arrowhead)" class="arrow"/>
+  <path d="M 40 160 Q 60 130 80 110" fill="none" stroke="#4F7CFF" stroke-width="2" opacity="0.6" marker-end="url(#arrowhead)" class="arrow"/>
+  <path d="M 120 70 Q 150 60 180 60" fill="none" stroke="#4F7CFF" stroke-width="2" opacity="0.6" marker-end="url(#arrowhead)" class="arrow"/>
+  
+  <!-- Center circle with CI/CD text -->
+  <circle cx="200" cy="200" r="60" fill="rgba(79,124,255,0.05)" stroke="rgba(79,124,255,0.2)" stroke-width="2"/>
+  <text x="200" y="190" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#4F7CFF" class="center-text">CONTINUOUS</text>
+  <text x="200" y="210" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#1EC8C8" class="center-text">INTEGRATION</text>
+  <text x="200" y="230" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#EAF1FF" opacity="0.7">&amp; DELIVERY</text>
+</svg>
