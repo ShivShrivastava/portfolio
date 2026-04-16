@@ -10,13 +10,21 @@
         --bg0:#060B16;
         --bg1:#0A1326;
         --bg2:#0E1B36;
-        --card:rgba(255,255,255,.06);
-        --card2:rgba(255,255,255,.08);
+        --card:rgba(255,255,255,.08);
+        --card2:rgba(255,255,255,.12);
+        --card-glass:rgba(255,255,255,0.1);
+        --card-glass-border:rgba(255,255,255,0.2);
         --stroke:rgba(255,255,255,.12);
         --text:#EAF1FF;
         --muted:rgba(234,241,255,.72);
         --accent:#4F7CFF;
         --accent2:#1EC8C8;
+        --accent3:#8B5CF6;
+        --accent4:#EC4899;
+        --gradient-1:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-2:linear-gradient(135deg, #4F7CFF 0%, #1EC8C8 100%);
+        --gradient-3:linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+        --gradient-text:linear-gradient(135deg, var(--accent), var(--accent2));
         --btnBase:#12213F;
         --btnBorder:#28457A;
         --btnHover:#18305A;
@@ -24,7 +32,10 @@
         --btnPrimary2:#1D4FCC;
         --good:#3DFFB5;
         --shadow: 0 18px 60px rgba(0,0,0,.45);
+        --glow-shadow:0 0 40px rgba(79,124,255,0.3);
+        --card-shadow:0 8px 32px rgba(0,0,0,0.2);
         --radius: 18px;
+        --radius-lg: 24px;
         --max: 1120px;
         --navH: 72px;
       }
@@ -36,11 +47,13 @@
         font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
         color:var(--text);
         background:
-          radial-gradient(1100px 720px at -10% -10%, rgba(79,124,255,.22), transparent 62%),
-          radial-gradient(900px 640px at 115% -5%, rgba(30,200,200,.16), transparent 58%),
-          radial-gradient(900px 560px at 50% 120%, rgba(79,124,255,.09), transparent 64%),
-          linear-gradient(165deg, var(--bg0), var(--bg1) 55%, var(--bg2));
+          radial-gradient(1400px 800px at -10% -10%, rgba(139,92,255,.25), transparent 50%),
+          radial-gradient(1200px 700px at 115% -5%, rgba(236,72,153,.20), transparent 50%),
+          radial-gradient(1000px 600px at 50% 120%, rgba(79,124,255,.15), transparent 50%),
+          radial-gradient(800px 500px at 20% 80%, rgba(30,200,200,.12), transparent 50%),
+          linear-gradient(165deg, var(--bg0), var(--bg1) 40%, var(--bg2));
         overflow-x:hidden;
+        min-height: 100vh;
       }
 
       a{ color: inherit; text-decoration:none; }
@@ -53,10 +66,12 @@
         left: 0;
         right: 0;
         height: var(--navH);
-        z-index: 50;
-        backdrop-filter: blur(12px);
-        background: rgba(7,10,18,.45);
-        border-bottom: 1px solid rgba(255,255,255,.08);
+        background: linear-gradient(180deg, rgba(15,23,42,0.98), rgba(30,41,59,0.95));
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-bottom: 1px solid rgba(255,255,255,.12);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        z-index: 1000;
       }
 
       .nav-inner{
@@ -64,24 +79,43 @@
         display:flex;
         align-items:center;
         justify-content: space-between;
-        gap: 16px;
+        padding: 0 8px;
       }
 
       .brand{
         display:flex;
         align-items:center;
-        gap: 12px;
-        min-width: 220px;
+        gap: 14px;
+        min-width: 240px;
+        transition: transform 0.3s ease;
+      }
+      .brand:hover{
+        transform: scale(1.02);
       }
 
       .avatar{
-        width: 42px;
-        height: 42px;
+        width: 46px;
+        height: 46px;
         border-radius: 999px;
-        background: linear-gradient(135deg, rgba(79,124,255,.95), rgba(30,200,200,.85));
-        box-shadow: 0 10px 28px rgba(17, 38, 84, .45);
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        box-shadow: 0 8px 24px rgba(79,124,255,0.3), 0 0 0 3px rgba(255,255,255,0.1);
         padding: 2px;
         overflow: hidden;
+        position: relative;
+      }
+      .avatar::before{
+        content: '';
+        position: absolute;
+        inset: -2px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+        border-radius: 999px;
+        z-index: -1;
+        opacity: 0.6;
+        animation: rotate 8s linear infinite;
+      }
+      @keyframes rotate{
+        from{ transform: rotate(0deg); }
+        to{ transform: rotate(360deg); }
       }
       .avatar img{
         width: 100%;
@@ -89,56 +123,86 @@
         object-fit: cover;
         border-radius: 999px;
         display:block;
+        position: relative;
+        z-index: 1;
       }
 
       .brand-title{
         display:flex;
         flex-direction:column;
-        line-height: 1.1;
+        line-height: 1.2;
       }
-      .brand-title strong{ font-size: 14px; }
-      .brand-title span{ font-size: 12px; color: var(--muted); }
+      .brand-title strong{ 
+        font-size: 15px; 
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: 0.3px;
+      }
+      .brand-title span{ 
+        font-size: 12px; 
+        color: var(--muted);
+        font-weight: 500;
+      }
 
       .nav-links{
         display:flex;
-        gap: 18px;
+        gap: 20px;
         align-items:center;
         justify-content:center;
       }
       .nav-links a{
         font-size: 13px;
         color: var(--muted);
-        padding: 10px 10px;
-        border-radius: 12px;
-        transition: transform .2s ease, background .2s ease, color .2s ease;
+        padding: 12px 16px;
+        border-radius: 14px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         white-space: nowrap;
+        font-weight: 500;
+        position: relative;
+        overflow: hidden;
+      }
+      .nav-links a::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transition: left 0.6s ease;
       }
       .nav-links a:hover{
         color: var(--text);
-        background: rgba(255,255,255,.06);
-        transform: translateY(-1px);
+        background: rgba(79,124,255,0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(79,124,255,0.15);
+      }
+      .nav-links a:hover::before{
+        left: 100%;
       }
       .nav-links a.is-active{
         color: var(--text);
-        background: rgba(124,92,255,.15);
-        border: 1px solid rgba(124,92,255,.35);
+        background: rgba(79,124,255,0.15);
+        border: 1px solid rgba(79,124,255,0.3);
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(79,124,255,0.2);
       }
 
       .nav-cta{
         display:flex;
-        flex-wrap: wrap;
-        gap: 10px;
+        flex-wrap: nowrap;
+        gap: 8px;
         align-items:center;
         justify-content:flex-end;
-        min-width: 280px;
+        min-width: 320px;
       }
 
       .btn{
         display:inline-flex;
         align-items:center;
         justify-content:center;
-        gap: 10px;
-        padding: 11px 14px;
+        gap: 8px;
+        padding: 10px 12px;
         border-radius: 14px;
         border: 1px solid var(--btnBorder);
         background: linear-gradient(180deg, rgba(22,40,74,.95), rgba(16,31,58,.95));
@@ -146,9 +210,10 @@
         box-shadow: 0 10px 30px rgba(0,0,0,.22);
         transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
         font-weight: 650;
-        font-size: 13px;
+        font-size: 12px;
         position: relative;
         overflow: hidden;
+        white-space: nowrap;
       }
       .btn:hover{
         transform: translateY(-3px) scale(1.01);
@@ -191,18 +256,18 @@
       }
 
       .hero-inner{
-        display:grid;
-        grid-template-columns: 1.15fr .85fr;
+        display:flex;
+        flex-direction: column;
         gap: 22px;
         align-items: stretch;
       }
 
       .hero-card{
-        background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
-        border: 1px solid rgba(255,255,255,.10);
+        background: linear-gradient(180deg, rgba(30, 41, 59, 0.85), rgba(51, 65, 85, 0.8));
+        border: 1px solid rgba(148, 163, 184, 0.3);
         border-radius: var(--radius);
         padding: 26px;
-        box-shadow: var(--shadow);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         position: relative;
         overflow:hidden;
       }
@@ -251,8 +316,9 @@
 
       .hero-top{
         display:flex;
+        flex-direction: column;
         align-items:center;
-        justify-content: space-between;
+        justify-content: center;
         gap: 16px;
         margin-bottom: 8px;
       }
@@ -261,17 +327,23 @@
         display:flex;
         flex-direction:column;
         gap: 4px;
+        align-items: center;
+        text-align: center;
       }
 
       .hero-identity .name{
         font-size: 16px;
         font-weight: 800;
         letter-spacing: .2px;
+        color: #FFFFFF;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
       }
 
       .hero-identity .role{
         font-size: 13px;
-        color: var(--muted);
+        color: #EAF1FF;
+        font-weight: 600;
+        opacity: 0.9;
       }
 
       .profile-wrap{
@@ -320,6 +392,7 @@
         font-size: 13px;
         display:flex;
         align-items:center;
+        justify-content: center;
         gap: 10px;
         text-transform: uppercase;
       }
@@ -342,6 +415,7 @@
         font-size: clamp(28px, 4.2vw, 44px);
         letter-spacing: -0.8px;
         line-height: 1.08;
+        text-align: center;
       }
 
       .gradient-text{
@@ -352,11 +426,51 @@
       }
 
       .hero-sub{
-        color: var(--muted);
-        font-size: 15px;
-        line-height: 1.7;
+        color: #E2E8F0;
+        font-size: 16px;
+        line-height: 1.8;
         margin: 0 0 18px;
-        max-width: 56ch;
+        text-align: center;
+        width: 100%;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .hero-actions .btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap: 8px;
+        padding: 12px 20px;
+        border-radius: 8px;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        background: linear-gradient(180deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+        color: #F1F5F9;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+        font-weight: 600;
+        font-size: 14px;
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .hero-actions .btn:hover{
+        transform: translateY(-2px);
+        background: linear-gradient(180deg, rgba(51, 65, 85, 0.9), rgba(30, 41, 59, 0.95));
+        border-color: rgba(148, 163, 184, 0.5);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .hero-actions .btn.primary{
+        border-color: rgba(59, 130, 246, 0.6);
+        background: linear-gradient(140deg, rgba(59, 130, 246, 0.9), rgba(37, 99, 235, 0.95));
+        color: #FFFFFF;
+        font-weight: 700;
+      }
+      .hero-actions .btn.primary:hover{
+        border-color: rgba(59, 130, 246, 0.8);
+        background: linear-gradient(140deg, rgba(59, 130, 246, 1), rgba(37, 99, 235, 1));
+        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
       }
 
       .hero-actions{
@@ -364,22 +478,61 @@
         flex-wrap: wrap;
         gap: 12px;
         align-items:center;
+        justify-content: center;
         margin-top: 6px;
       }
 
       .hero-meta{
-        display:grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
         height: 100%;
-        align-content: start;
+      }
+
+      .devops-image-container{
+        width: 100%;
+        height: 100%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background: rgba(255,255,255,.03);
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: var(--radius);
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .devops-image-container:before{
+        content:"";
+        position:absolute;
+        inset:-2px;
+        background:
+          radial-gradient(400px 200px at 50% 0%, rgba(79,124,255,.15), transparent 50%),
+          radial-gradient(350px 180px at 80% 100%, rgba(30,200,200,.12), transparent 50%);
+        opacity:.8;
+        pointer-events:none;
+      }
+
+      .devops-image{
+        width: 100%;
+        height: auto;
+        max-height: 350px;
+        object-fit: contain;
+        border-radius: 12px;
+        position: relative;
+        z-index: 1;
+        transition: transform 0.3s ease;
       }
 
       .meta-card{
-        background: rgba(255,255,255,.05);
-        border: 1px solid rgba(255,255,255,.10);
+        background: linear-gradient(180deg, rgba(51, 65, 85, 0.75), rgba(71, 85, 105, 0.7));
+        border: 1px solid rgba(148, 163, 184, 0.4);
         border-radius: var(--radius);
         padding: 16px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        position: relative;
+        overflow:hidden;
       }
       .meta-card h4{
         margin: 0 0 6px;
@@ -413,12 +566,14 @@
       /* Reveal on scroll */
       .reveal{
         opacity: 0;
-        transform: translateY(14px);
-        transition: opacity .6s ease, transform .6s ease;
+        transform: translateY(30px) scale(0.95);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        filter: blur(2px);
       }
       .reveal.is-visible{
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
+        filter: blur(0);
       }
 
       .section{
@@ -434,8 +589,26 @@
       }
       .section-head h2{
         margin: 0;
-        font-size: 22px;
-        letter-spacing: -0.4px;
+        font-size: 26px;
+        letter-spacing: -0.6px;
+        font-weight: 800;
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+      }
+
+      .section-head h2::after{
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--gradient-2);
+        border-radius: 2px;
+        opacity: 0.8;
       }
       .section-head p{
         margin:0;
@@ -446,11 +619,38 @@
       }
 
       .panel{
-        background: rgba(255,255,255,.05);
-        border: 1px solid rgba(255,255,255,.10);
-        border-radius: var(--radius);
-        padding: 20px;
-        box-shadow: 0 14px 50px rgba(0,0,0,.18);
+        background: var(--card-glass);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--card-glass-border);
+        border-radius: var(--radius-lg);
+        padding: 28px;
+        box-shadow: var(--card-shadow), var(--glow-shadow);
+        position: relative;
+        overflow:hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .panel::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .panel:hover{
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 60px rgba(79,124,255,0.2);
+        border-color: rgba(255,255,255,0.3);
+      }
+
+      .panel:hover::before{
+        opacity: 1;
       }
 
       .two-col{
@@ -461,45 +661,174 @@
 
       .bullets{
         margin: 10px 0 0;
-        padding-left: 18px;
-        color: var(--muted);
+        padding-left: 0;
+        color: #F1F5F9;
         line-height: 1.8;
-        font-size: 14px;
+        font-size: 15px;
+        font-weight: 500;
+        list-style: none;
       }
-      .bullets li{ margin: 8px 0; }
+      .bullets li{ 
+        margin: 12px 0; 
+        color: #E2E8F0;
+        padding: 12px 16px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        padding-left: 48px;
+        display: flex;
+        align-items: center;
+      }
+      .bullets li:hover{
+        background: rgba(79,124,255,0.1);
+        border-color: rgba(79,124,255,0.3);
+        transform: translateX(8px) scale(1.02);
+        box-shadow: 0 4px 20px rgba(79,124,255,0.15);
+      }
+      .bullets li::before{
+        content: '';
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 8px;
+        height: 8px;
+        background: var(--gradient-2);
+        border-radius: 50%;
+        box-shadow: 0 0 12px rgba(79,124,255,0.6);
+        transition: all 0.3s ease;
+      }
+      .bullets li:hover::before{
+        width: 12px;
+        height: 12px;
+        box-shadow: 0 0 20px rgba(79,124,255,0.8);
+      }
+      .bullets li strong{ 
+        color: #FFFFFF;
+        font-weight: 700;
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
 
-      /* Skills */
-      .skill-groups{
-        display:grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
+      /* Summary List */
+      .summary-list{
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
       }
-      .skill-block h3{
-        margin: 0 0 10px;
+
+      .summary-item{
+        display: block;
+        padding: 20px 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .summary-item:hover{
+        transform: translateX(8px);
+      }
+
+      .summary-dot{
+        width: 12px;
+        height: 12px;
+        background: var(--gradient-2);
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 4px;
+        box-shadow: 0 0 12px rgba(79,124,255,0.4);
+        position: relative;
+      }
+
+      .summary-dot::after{
+        content: '';
+        position: absolute;
+        inset: -2px;
+        background: rgba(79,124,255,0.2);
+        border-radius: 50%;
+      }
+
+      .summary-content{
+        flex: 1;
+        min-width: 0;
+      }
+
+      .summary-content p{
+        margin: 0;
+        line-height: 1.6;
+        color: var(--muted);
+        font-size: 14px;
+        text-align: left;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      .summary-content strong{
+        color: var(--text);
+        font-weight: 700;
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      /* Skills Cloud */
+      .skills-cloud{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 20px 0;
+      }
+
+      .skill-pill{
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 50px;
+        border: 1px solid rgba(255,255,255,0.15);
+        background: var(--card-glass);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         font-size: 14px;
         color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: .4px;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
       }
 
-      .tags{
-        display:flex;
-        flex-wrap: wrap;
-        gap: 10px;
+      .skill-pill::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transition: left 0.6s ease;
       }
-      .tag{
-        padding: 10px 12px;
-        border-radius: 12px;
-        border: 1px solid rgba(255,255,255,.12);
-        background: rgba(255,255,255,.05);
-        font-weight: 700;
-        font-size: 13px;
-        transition: transform .25s ease, border-color .25s ease, background .25s ease;
+
+      .skill-pill:hover{
+        border-color: rgba(79,124,255,0.4);
+        background: rgba(79,124,255,0.1);
+        color: var(--accent);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(79,124,255,0.2);
       }
-      .tag:hover{
-        transform: translateY(-3px);
-        border-color: rgba(79,124,255,.4);
-        background: rgba(255,255,255,.1);
+
+      .skill-pill:hover::before{
+        left: 100%;
+      }
+
+      .skill-dot{
+        width: 6px;
+        height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+        flex-shrink: 0;
+        box-shadow: 0 0 8px rgba(79,124,255,0.4);
       }
 
       /* Projects */
@@ -510,22 +839,34 @@
       }
 
       .project{
-        padding: 18px;
-        border-radius: var(--radius);
-        background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
-        border: 1px solid rgba(255,255,255,.10);
+        padding: 24px;
+        border-radius: var(--radius-lg);
+        background: var(--card-glass);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--card-glass-border);
         position: relative;
         overflow:hidden;
+        box-shadow: var(--card-shadow), var(--glow-shadow);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
       .project:before{
         content:"";
         position:absolute;
         inset: -2px;
-        background: radial-gradient(350px 180px at 0% 0%, rgba(124,92,255,.22), transparent 55%);
-        opacity: .9;
+        background: radial-gradient(400px 200px at 0% 0%, rgba(139,92,255,.25), transparent 60%);
+        opacity: .8;
         pointer-events:none;
       }
       .project > *{ position: relative; z-index: 1; }
+      .project:hover{
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 16px 50px rgba(0,0,0,0.4), 0 0 80px rgba(139,92,255,0.3);
+        border-color: rgba(255,255,255,0.4);
+      }
+      .project:hover:before{
+        opacity: 1;
+      }
 
       .project h3{
         margin: 0 0 8px;
@@ -547,6 +888,133 @@
         border-radius: 999px;
       }
 
+      /* Certifications Grid */
+      .certifications-grid{
+        display:grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-top: 20px;
+      }
+
+      .cert-card{
+        background: var(--card-glass);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid var(--card-glass-border);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+      }
+
+      .cert-card::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--gradient-2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .cert-card::after{
+        content: '';
+        position: absolute;
+        inset: -2px;
+        background: radial-gradient(300px 150px at 50% 50%, rgba(79,124,255,.15), transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+      }
+
+      .cert-card:hover{
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 60px rgba(79,124,255,0.25);
+        border-color: rgba(79,124,255,0.4);
+      }
+
+      .cert-card:hover::before{
+        opacity: 1;
+      }
+
+      .cert-card:hover::after{
+        opacity: 1;
+      }
+
+      .cert-image-container{
+        width: 100%;
+        height: 200px;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 16px;
+        background: var(--bg2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cert-image{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .cert-card:hover .cert-image{
+        transform: scale(1.05);
+      }
+
+      .cert-content{
+        text-align: center;
+      }
+
+      .cert-title{
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text);
+        margin: 0 0 8px 0;
+        line-height: 1.4;
+      }
+
+      .cert-issuer{
+        font-size: 14px;
+        color: var(--accent);
+        margin: 0 0 4px 0;
+        font-weight: 500;
+      }
+
+      .cert-year{
+        font-size: 13px;
+        color: var(--muted);
+        margin: 0 0 16px 0;
+      }
+
+      .cert-link{
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 16px;
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        background: transparent;
+      }
+
+      .cert-link:hover{
+        background: var(--accent);
+        color: var(--bg0);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(79, 124, 255, 0.3);
+      }
+
       .project p{
         margin: 0 0 12px;
         color: var(--muted);
@@ -565,15 +1033,119 @@
       .contact-actions{
         display:flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 8px;
         margin-top: 10px;
       }
 
+      .contact-row-top{
+        display:flex;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .contact-row-bottom{
+        display:flex;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .contact-actions .btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap: 6px;
+        padding: 10px 20px;
+        border-radius: 6px;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        background: linear-gradient(180deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+        color: #F1F5F9;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+        font-weight: 600;
+        font-size: 13px;
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        min-width: 120px;
+      }
+      .contact-actions .btn:hover{
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .contact-actions .btn.email {
+        border-color: rgba(239, 68, 68, 0.6);
+        background: linear-gradient(180deg, rgba(239, 68, 68, 0.9), rgba(220, 38, 38, 0.95));
+        color: #FFFFFF;
+      }
+      .contact-actions .btn.email:hover {
+        border-color: rgba(239, 68, 68, 0.8);
+        background: linear-gradient(180deg, rgba(239, 68, 68, 1), rgba(220, 38, 38, 1));
+        box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .contact-actions .btn.whatsapp {
+        border-color: rgba(34, 197, 94, 0.6);
+        background: linear-gradient(180deg, rgba(34, 197, 94, 0.9), rgba(22, 163, 74, 0.95));
+        color: #FFFFFF;
+      }
+      .contact-actions .btn.whatsapp:hover {
+        border-color: rgba(34, 197, 94, 0.8);
+        background: linear-gradient(180deg, rgba(34, 197, 94, 1), rgba(22, 163, 74, 1));
+        box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .contact-actions .btn.linkedin {
+        border-color: rgba(59, 130, 246, 0.6);
+        background: linear-gradient(180deg, rgba(59, 130, 246, 0.9), rgba(37, 99, 235, 0.95));
+        color: #FFFFFF;
+      }
+      .contact-actions .btn.linkedin:hover {
+        border-color: rgba(59, 130, 246, 0.8);
+        background: linear-gradient(180deg, rgba(59, 130, 246, 1), rgba(37, 99, 235, 1));
+        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .contact-actions .btn.github {
+        border-color: rgba(107, 114, 128, 0.6);
+        background: linear-gradient(180deg, rgba(107, 114, 128, 0.9), rgba(75, 85, 99, 0.95));
+        color: #FFFFFF;
+      }
+      .contact-actions .btn.github:hover {
+        border-color: rgba(107, 114, 128, 0.8);
+        background: linear-gradient(180deg, rgba(107, 114, 128, 1), rgba(75, 85, 99, 1));
+        box-shadow: 0 10px 15px -3px rgba(107, 114, 128, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+
       .contact-card{
-        padding: 18px;
-        border-radius: var(--radius);
-        background: rgba(255,255,255,.05);
-        border: 1px solid rgba(255,255,255,.10);
+        padding: 24px;
+        border-radius: var(--radius-lg);
+        background: var(--card-glass);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--card-glass-border);
+        box-shadow: var(--card-shadow), var(--glow-shadow);
+        position: relative;
+        overflow:hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .contact-card::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--gradient-1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .contact-card:hover{
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.3), 0 0 60px rgba(102,126,234,0.25);
+        border-color: rgba(102,126,234,0.4);
+      }
+
+      .contact-card:hover::before{
+        opacity: 1;
       }
 
       .contact-card h3{
@@ -641,6 +1213,216 @@
         pointer-events:auto;
       }
 
+      /* Modern Timeline */
+      .modern-timeline{
+        position: relative;
+        padding: 40px 0;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .timeline-line{
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, var(--accent2), var(--accent3));
+        transform: translateX(-50%);
+        border-radius: 2px;
+        box-shadow: 0 0 20px rgba(79, 124, 255, 0.3);
+      }
+
+      .timeline-item{
+        position: relative;
+        margin-bottom: 60px;
+        display: flex;
+        align-items: center;
+      }
+
+      .timeline-item.timeline-left{
+        justify-content: flex-start;
+      }
+
+      .timeline-item.timeline-right{
+        justify-content: flex-end;
+      }
+
+      .timeline-node{
+        position: absolute;
+        left: 50%;
+        top: 20px;
+        transform: translateX(-50%);
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .node-icon{
+        width: 50px;
+        height: 50px;
+        background: var(--card-glass);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 2px solid var(--card-glass-border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        position: relative;
+        z-index: 2;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .node-glow{
+        position: absolute;
+        inset: -8px;
+        background: radial-gradient(circle, rgba(79, 124, 255, 0.4), transparent 70%);
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+      }
+
+      .timeline-item:hover .node-glow{
+        opacity: 1;
+      }
+
+      .timeline-item:hover .node-icon{
+        transform: scale(1.1);
+        border-color: var(--accent);
+        box-shadow: 0 0 25px rgba(79, 124, 255, 0.5);
+      }
+
+      .timeline-card{
+        background: var(--card-glass);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--card-glass-border);
+        border-radius: var(--radius-lg);
+        padding: 28px;
+        box-shadow: var(--card-shadow), var(--glow-shadow);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        width: calc(50% - 40px);
+        max-width: 400px;
+      }
+
+      .timeline-card::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--gradient-2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .timeline-card:hover{
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3), 0 0 80px rgba(79, 124, 255, 0.25);
+        border-color: rgba(79, 124, 255, 0.4);
+      }
+
+      .timeline-card:hover::before{
+        opacity: 1;
+      }
+
+      .card-header{
+        margin-bottom: 20px;
+      }
+
+      .role-title{
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--text);
+        margin: 0 0 8px 0;
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .company{
+        font-size: 16px;
+        color: var(--accent2);
+        font-weight: 600;
+        margin: 0 0 12px 0;
+      }
+
+      .duration{
+        display: inline-block;
+        background: rgba(79, 124, 255, 0.15);
+        color: var(--accent);
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        border: 1px solid rgba(79, 124, 255, 0.3);
+        margin-bottom: 8px;
+      }
+
+      .location{
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .card-content{
+        margin-top: 16px;
+      }
+
+      .skills-grid{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .skill-pill{
+        display: inline-block;
+        background: var(--card-glass);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: var(--muted);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skill-pill::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.6s ease;
+      }
+
+      .skill-pill:hover{
+        background: rgba(79, 124, 255, 0.2);
+        color: var(--accent);
+        border-color: rgba(79, 124, 255, 0.4);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(79, 124, 255, 0.3);
+      }
+
+      .skill-pill:hover::before{
+        left: 100%;
+      }
+
       /* Responsive */
       @media (max-width: 940px){
         .hero-inner{ grid-template-columns: 1fr; }
@@ -649,20 +1431,151 @@
         .skill-groups{ grid-template-columns: 1fr; }
         .project-grid{ grid-template-columns: 1fr; }
         .contact-row{ grid-template-columns: 1fr; }
+        .certifications-grid{ grid-template-columns: repeat(2, 1fr); }
         .nav-links{ display:none; }
-        .nav-cta{ min-width: 0; }
+        .nav-cta a:not(:last-child){ display: none; } /* Hide all buttons except Download CV */
         .profile-wrap{
           width: 120px;
           height: 120px;
         }
+        .experience-header{
+          flex-direction: column;
+          gap: 12px;
+        }
+        .experience-right{
+          text-align: left;
+          min-width: auto;
+        }
+      }
+
+      @media (max-width: 768px){
+        .hero-top{
+          flex-direction: column;
+          align-items: center;
+        }
+        .hero-meta{ grid-template-columns: 1fr; }
+        .certifications-grid{ grid-template-columns: 1fr; }
+        .project h3{
+          text-align: left;
+        }
+        .project p{
+          text-align: left;
+        }
+        .project .meta{
+          justify-content: flex-start;
+        }
+        .modern-timeline{
+          padding: 20px 0;
+        }
+        .timeline-item{
+          justify-content: center;
+          margin-bottom: 40px;
+        }
+        .timeline-item.timeline-left,
+        .timeline-item.timeline-right{
+          justify-content: center;
+        }
+        .timeline-card{
+          width: 100%;
+          max-width: none;
+          padding: 20px;
+        }
+        .timeline-node{
+          left: 20px;
+          transform: translateX(0);
+        }
+        .timeline-line{
+          left: 20px;
+          width: 2px;
+        }
+        .role-title{
+          font-size: 18px;
+        }
+        .company{
+          font-size: 14px;
+        }
+        .duration{
+          font-size: 12px;
+          padding: 4px 8px;
+        }
+        .location{
+          font-size: 12px;
+        }
+        .skills-grid{
+          gap: 6px;
+        }
+        .skill-pill{
+          padding: 6px 12px;
+          font-size: 11px;
+        }
       }
 
       @media (max-width: 620px){
-        .hero-top{
-          flex-direction: column-reverse;
-          align-items: flex-start;
+        .project h4{
+          font-size: 14px;
+          margin: 16px 0 8px;
+          line-height: 1.4;
         }
-        .hero-meta{ grid-template-columns: 1fr; }
+        .project .bullets{
+          padding-left: 0;
+        }
+        .project .bullets li{
+          padding: 12px 16px;
+          padding-left: 40px;
+          font-size: 13px;
+          line-height: 1.5;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          hyphens: auto;
+          display: block;
+          text-align: left;
+        }
+        .project .bullets li strong{
+          display: inline;
+          white-space: normal;
+        }
+      }
+
+      @media (max-width: 480px){
+        .project .bullets li{
+          padding: 10px 12px;
+          padding-left: 36px;
+          font-size: 12px;
+          line-height: 1.4;
+        }
+        .project .bullets li strong{
+          font-weight: 700;
+        }
+        .summary-list{
+          gap: 16px;
+        }
+        .summary-item{
+          flex-direction: column;
+          gap: 12px;
+          padding: 16px 0;
+        }
+        .summary-content p{
+          font-size: 13px;
+          line-height: 1.5;
+        }
+        .summary-dot{
+          width: 10px;
+          height: 10px;
+          margin-top: 2px;
+        }
+        .skills-cloud{
+          gap: 8px;
+          padding: 16px 0;
+        }
+        .skill-pill{
+          padding: 6px 12px;
+          font-size: 12px;
+          gap: 6px;
+        }
+        .skill-dot{
+          width: 5px;
+          height: 5px;
+        }
       }
     </style>
   </head>
@@ -678,14 +1591,15 @@
           </div>
           <div class="brand-title">
             <strong>Shiv Shrivastava</strong>
-            <span>DevOps Engineer</span>
+            <span>Senior Consultant - DevOps</span>
           </div>
         </a>
 
         <nav class="nav-links" aria-label="Primary">
           <a href="#summary" data-nav>Summary</a>
-          <a href="#about" data-nav>About Me</a>
           <a href="#skills" data-nav>Skills</a>
+          <a href="#education" data-nav>Certifications</a>
+          <a href="#experience" data-nav>Work Experience</a>
           <a href="#projects" data-nav>Projects</a>
           <a href="#contact" data-nav>Contact</a>
         </nav>
@@ -697,18 +1611,25 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            LinkedIn
+            LinkedIn →
           </a>
           <a
             class="btn"
+            href="https://github.com/ShivShrivastava"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub →
+          </a>
+          <a class="btn" href="mailto:shrishiv09@gmail.com?subject=Portfolio%20Inquiry%20-%20Shiv%20Shrivastava">
+            Email Me →
+          </a>
+          <a
+            class="btn primary"
             href="assets/Shiv_Shrivastava_CV.pdf"
             download="Shiv_Shrivastava_CV.pdf"
           >
-            Download CV
-          </a>
-          <a class="btn primary" href="mailto:shrishiv09@gmail.com?subject=Portfolio%20Inquiry%20-%20Shiv%20Shrivastava">
-            <span class="dot" aria-hidden="true"></span>
-            Email Me
+            Download CV →
           </a>
         </div>
       </div>
@@ -719,94 +1640,44 @@
         <div class="container hero-inner">
           <div class="hero-card reveal">
             <div class="hero-top">
-              <div class="hero-identity">
-                <div class="name">Shiv Shrivastava</div>
-                <div class="role">DevOps Engineer | Azure | Terraform | CI/CD</div>
-              </div>
               <div class="profile-wrap" aria-label="Shiv Shrivastava photo">
                 <img
                   src="assets/profile.png"
                   alt="Shiv Shrivastava profile photo"
                 />
               </div>
-            </div>
-
-            <div class="kicker">
-              <span class="pulse" aria-hidden="true"></span>
-              Available for DevOps / Cloud / CI-CD work
+              <div class="hero-identity">
+                <div class="name">Shiv Shrivastava</div>
+                <div class="role">Senior Consultant - DevOps</div>
+              </div>
             </div>
 
             <h1 class="hero-title">
-              I build <span class="gradient-text">reliable</span> cloud & CI/CD pipelines.
+              I design and build <span class="gradient-text">secure, scalable</span> cloud solutions.
             </h1>
 
-            <p class="hero-sub">
-              DevOps Engineer with <strong>6 years of experience</strong> specializing in <strong>Azure</strong>,
-              <strong>Terraform</strong>, <strong>Git</strong>, <strong>Docker</strong>,
-              <strong>Kubernetes</strong> and <strong>CI/CD</strong> pipelines.
-              I focus on infrastructure automation, monitoring, and system optimization for scalable,
-              secure environments.
-            </p>
-
+            
             <div class="hero-actions">
-              <a class="btn" href="mailto:shrishiv09@gmail.com?subject=Portfolio%20Inquiry%20-%20Shiv%20Shrivastava">
-                Email
+              <a
+                class="btn"
+                href="#skills"
+              >
+                View Skills →
               </a>
               <a
                 class="btn"
-                href="https://www.linkedin.com/in/shiv-shrivastava-27905574"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#projects"
               >
-                LinkedIn
+                View Projects →
               </a>
               <a
                 class="btn primary"
-                href="assets/Shiv_Shrivastava_CV.pdf"
-                download="Shiv_Shrivastava_CV.pdf"
+                href="#contact"
               >
-                Download CV
+                Contact Me →
               </a>
-              <a
-                class="btn"
-                href="https://wa.me/8770183929?text=Hi%20Shiv,%20I%20found%20your%20portfolio%20and%20would%20like%20to%20connect."
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                WhatsApp
-              </a>
-              <a class="btn" href="#projects" data-scroll>
-                View Projects
-              </a>
-            </div>
-
-            <div class="chip-row" aria-label="Highlights">
-              <div class="chip">Infrastructure as Code (IaC)</div>
-              <div class="chip">Azure DevOps CI/CD</div>
-              <div class="chip">SRE mindset</div>
-              <div class="chip">Blue-Green & Canary patterns</div>
             </div>
           </div>
-
-          <div class="hero-meta reveal">
-            <div class="meta-card">
-              <h4>Contact</h4>
-              <p>+91-8770183929</p>
-            </div>
-            <div class="meta-card">
-              <h4>Email</h4>
-              <p>shrishiv09@gmail.com</p>
-            </div>
-            <div class="meta-card">
-              <h4>Location</h4>
-              <p>Gurgaon, India</p>
-            </div>
-            <div class="meta-card">
-              <h4>Focus</h4>
-              <p>Azure, Terraform, CI/CD</p>
-            </div>
-          </div>
-        </div>
       </section>
 
       <section id="summary" class="section">
@@ -815,55 +1686,11 @@
             <h2>Professional Summary</h2>
           </div>
 
-          <div class="panel reveal">
-            <ul class="bullets">
-              <li>DevOps Engineer with 6 years of experience specializing in Azure, Terraform, Git, Docker, Kubernetes and CI/CD pipelines.</li>
-              <li>Expertise in infrastructure automation, performance monitoring and system optimization for scalable, reliable and secure environments.</li>
-              <li>Strong collaboration with cross-functional teams to streamline development workflows and improve deployment efficiency.</li>
-              <li>Committed to driving project success while maintaining operational standards and continuous delivery practices.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="about" class="section">
-        <div class="container">
-          <div class="section-head reveal">
-            <h2>About Me</h2>
-            <p>How I approach DevOps work: automation first, visibility always, and reliable releases.</p>
-          </div>
-
-          <div class="two-col">
-            <div class="panel reveal">
-              <p style="margin:0;color:var(--muted);line-height:1.8;font-size:14px;">
-                I help teams ship faster and with confidence by turning infrastructure and delivery workflows into
-                repeatable systems. From planning and stakeholder alignment to implementation and production support,
-                I focus on building resilient pipelines, enforcing secure infrastructure standards, and improving performance.
-              </p>
-              <ul class="bullets">
-                <li>Infrastructure automation using Terraform across cloud environments.</li>
-                <li>CI/CD pipeline development to automate build, test and deployment workflows.</li>
-                <li>Monitoring and troubleshooting using Azure Monitor, Log Analytics and Application Insights.</li>
-                <li>Deployment patterns like Blue-Green and Canary for safer releases.</li>
-              </ul>
-            </div>
-
-            <div class="panel reveal">
-              <h3 style="margin:0 0 10px;font-size:16px;">Core Approach</h3>
-              <p style="margin:0 0 10px;color:var(--muted);line-height:1.8;font-size:14px;">
-                I combine an SRE mindset with hands-on Azure engineering and IaC practices to deliver consistent outcomes.
-                My goal is to make delivery predictable, secure, and measurable.
-              </p>
-              <div class="tags" style="margin-top:12px;">
-                <div class="tag">Automation</div>
-                <div class="tag">Reliability</div>
-                <div class="tag">Security</div>
-                <div class="tag">Performance</div>
-                <div class="tag">Compliance</div>
+          <div class="summary-list reveal">
+            <div class="summary-item">
+              <div class="summary-content">
+                <p><strong>Senior DevOps Consultant</strong> with 6+ years of experience in Azure cloud engineering, Terraform (IaC), CI/CD pipelines, and containerization with Docker and Kubernetes. Proven expertise in designing secure Azure landing zones, automating infrastructure, and implementing scalable DevOps solutions for enterprise environments.</p>
               </div>
-              <p style="margin:14px 0 0;color:var(--muted);font-size:13px;line-height:1.6;">
-                Languages: English, Hindi.
-              </p>
             </div>
           </div>
         </div>
@@ -875,51 +1702,167 @@
             <h2>Skills</h2>
           </div>
 
-          <div class="skill-groups">
-            <div class="panel reveal skill-block">
-              <h3>DevOps & Cloud</h3>
-              <div class="tags">
-                <div class="tag">Terraform</div>
-                <div class="tag">Azure</div>
-                <div class="tag">Azure DevOps</div>
-                <div class="tag">CI/CD Pipelines</div>
-                <div class="tag">AKS</div>
-                <div class="tag">Docker</div>
-                <div class="tag">Kubernetes</div>
-                <div class="tag">Git / GitHub</div>
+          <div class="skills-cloud reveal">
+            <div class="skill-pill">
+              <span>Azure</span>
+            </div>
+            <div class="skill-pill">
+              <span>Terraform</span>
+            </div>
+            <div class="skill-pill">
+              <span>CI/CD</span>
+            </div>
+            <div class="skill-pill">
+              <span>Docker</span>
+            </div>
+            <div class="skill-pill">
+              <span>Kubernetes</span>
+            </div>
+            <div class="skill-pill">
+              <span>Git</span>
+            </div>
+            <div class="skill-pill">
+              <span>Observability</span>
+            </div>
+            <div class="skill-pill">
+              <span>Scripting</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="education" class="section">
+        <div class="container">
+          <div class="section-head reveal">
+            <h2>Certifications</h2>
+          </div>
+
+          <div class="certifications-grid">
+            <div class="cert-card reveal">
+              <div class="cert-content">
+                <h3 class="cert-title">Cloud Infrastructure Foundations Associate</h3>
+                <p class="cert-issuer">Oracle</p>
+                <a href="#" onclick="viewCertificate('1775126113947.png'); return false;" class="cert-link">View Certificate</a>
+              </div>
+            </div>
+            <div class="cert-card reveal">
+              <div class="cert-content">
+                <h3 class="cert-title">Claude 101</h3>
+                <p class="cert-issuer">Anthropic</p>
+                <a href="#" onclick="viewCertificate('claude101.jpg'); return false;" class="cert-link">View Certificate</a>
+              </div>
+            </div>
+            <div class="cert-card reveal">
+              <div class="cert-content">
+                <h3 class="cert-title">Claude Code in Action</h3>
+                <p class="cert-issuer">Claude</p>
+                <a href="#" onclick="viewCertificate('Claude Code in Action.jpg'); return false;" class="cert-link">View Certificate</a>
+              </div>
+            </div>
+            <div class="cert-card reveal">
+              <div class="cert-content">
+                <h3 class="cert-title">AI Agent Fundamentals</h3>
+                <p class="cert-issuer">Databricks</p>
+                <a href="#" onclick="viewCertificate('AI Agent Fundamentals.jpg'); return false;" class="cert-link">View Certificate</a>
+              </div>
+            </div>
+            <div class="cert-card reveal">
+              <div class="cert-content">
+                <h3 class="cert-title">Generative AI Fundamentals</h3>
+                <p class="cert-issuer">Databricks</p>
+                <a href="#" onclick="viewCertificate('Generative AI Fundamentals.jpg'); return false;" class="cert-link">View Certificate</a>
+              </div>
+            </div>
+            <div class="cert-card reveal">
+              <div class="cert-content">
+                <h3 class="cert-title">Docker Foundations</h3>
+                <p class="cert-issuer">Docker</p>
+                <a href="#" onclick="viewCertificate('docker.jpg'); return false;" class="cert-link">View Certificate</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="section">
+        <div class="container">
+          <div class="section-head reveal">
+            <h2>Work Experience</h2>
+          </div>
+
+          <div class="modern-timeline">
+            <!-- Timeline Line -->
+            <div class="timeline-line"></div>
+            
+            <!-- Experience 1 - Right -->
+            <div class="timeline-item reveal timeline-right">
+              <div class="timeline-node">
+                <div class="node-icon">🚀</div>
+                <div class="node-glow"></div>
+              </div>
+              <div class="timeline-card">
+                <div class="card-header">
+                  <h3 class="role-title">Senior Consultant DevOps</h3>
+                  <p class="company">BDO</p>
+                  <span class="duration">Dec 2025 – Present</span>
+                  <span class="location">📍 India (On-site)</span>
+                </div>
+                <div class="card-content">
+                </div>
               </div>
             </div>
 
-            <div class="panel reveal skill-block">
-              <h3>Programming & Methodologies</h3>
-              <div class="tags">
-                <div class="tag">YAML</div>
-                <div class="tag">Python</div>
-                <div class="tag">Agile</div>
-                <div class="tag">SRE</div>
-                <div class="tag">Blue-Green</div>
-                <div class="tag">Canary Release</div>
+            <!-- Experience 2 - Left -->
+            <div class="timeline-item reveal timeline-left">
+              <div class="timeline-node">
+                <div class="node-icon">🔧</div>
+                <div class="node-glow"></div>
+              </div>
+              <div class="timeline-card">
+                <div class="card-header">
+                  <h3 class="role-title">Technical Support Engineer</h3>
+                  <p class="company">IGT Solutions</p>
+                  <span class="duration">Dec 2021 – Dec 2025</span>
+                  <span class="location">📍 India (On-site)</span>
+                </div>
+                <div class="card-content">
+                </div>
               </div>
             </div>
 
-            <div class="panel reveal skill-block">
-              <h3>Monitoring & Operations</h3>
-              <div class="tags">
-                <div class="tag">Azure Monitor</div>
-                <div class="tag">Log Analytics</div>
-                <div class="tag">Application Insights</div>
-                <div class="tag">Azure Policy</div>
-                <div class="tag">Defender for Cloud</div>
+            <!-- Experience 3 - Right -->
+            <div class="timeline-item reveal timeline-right">
+              <div class="timeline-node">
+                <div class="node-icon">💻</div>
+                <div class="node-glow"></div>
+              </div>
+              <div class="timeline-card">
+                <div class="card-header">
+                  <h3 class="role-title">Desktop Support Engineer</h3>
+                  <p class="company">Future Focus Infotech Pvt Ltd</p>
+                  <span class="duration">Mar 2020 – Nov 2021</span>
+                  <span class="location">📍 India (On-site)</span>
+                </div>
+                <div class="card-content">
+                </div>
               </div>
             </div>
 
-            <div class="panel reveal skill-block">
-              <h3>Tools & Platforms</h3>
-              <div class="tags">
-                <div class="tag">Jira</div>
-                <div class="tag">ServiceNow</div>
-                <div class="tag">Azure SQL Database</div>
-                <div class="tag">Visual Studio Code</div>
+            <!-- Experience 4 - Left -->
+            <div class="timeline-item reveal timeline-left">
+              <div class="timeline-node">
+                <div class="node-icon">🛠️</div>
+                <div class="node-glow"></div>
+              </div>
+              <div class="timeline-card">
+                <div class="card-header">
+                  <h3 class="role-title">Desktop Support Engineer</h3>
+                  <p class="company">Renovision Automation Services Pvt Ltd</p>
+                  <span class="duration">Oct 2017 – Mar 2020</span>
+                  <span class="location">📍 India</span>
+                </div>
+                <div class="card-content">
+                </div>
               </div>
             </div>
           </div>
@@ -934,47 +1877,34 @@
 
           <div class="project-grid">
             <article class="project reveal">
-              <h3>IndiGo FlightOps</h3>
-              <div class="meta" aria-label="Technologies">
-                <span>Terraform</span>
-                <span>Azure</span>
-                <span>CI/CD</span>
-                <span>Agile</span>
-                <span>Git/GitHub</span>
-              </div>
+              <h3>Enterprise Cloud Platform & Governance Architecture</h3>
               <p>
-                Worked on IndiGo FlightOps to automate infrastructure, implement CI/CD pipelines, and support
-                deployment of flight operations applications in a cloud-native environment.
+                Designed and implemented a secure, enterprise-grade cloud foundation enabling scalable and compliant infrastructure deployment. Focused on governance, security, identity management, and high availability for mission-critical workloads.
               </p>
-              <p style="margin-top:10px;">
-                <strong style="color:var(--text);">Key Modules:</strong> Login & registration, Web/Server communication,
-                Chat module, Poll/Vote module, TCP calls, IoT communication.
-              </p>
+              <h4 style="margin:20px 0 12px;font-size:16px;color:var(--text);">Key Contributions & Achievements:</h4>
               <ul class="bullets" style="margin-top:12px;">
-                <li>Drove infrastructure automation using Terraform for scalable and repeatable environments.</li>
-                <li>Led end-to-end CI/CD pipeline implementation to ensure reliable and timely code delivery.</li>
-                <li>Acted as primary point of contact by aligning business needs with strategic recommendations.</li>
-                <li>Gathered requirements from stakeholders and performed analysis based on SRS/BRS documents.</li>
+                <li>Architected Azure Landing Zones using hub-spoke network topology for secure and scalable cloud environments.</li>
+                <li>Deployed infrastructure using Terraform (IaC) ensuring consistency and repeatability.</li>
+                <li>Implemented identity and access management using Azure AD, RBAC, and Privileged Identity Management (PIM).</li>
+                <li>Established cloud governance framework with 50+ custom Azure Policies for compliance enforcement.</li>
+                <li>Enabled security monitoring and threat protection using Defender for Cloud.</li>
+                <li>Integrated ITSM workflows (incident and change management) for operational efficiency.</li>
               </ul>
             </article>
 
             <article class="project reveal">
-              <h3>DevOps Automation for Lupin Pharma Platform</h3>
-              <div class="meta" aria-label="Technologies">
-                <span>Azure Kubernetes Service (AKS)</span>
-                <span>Azure</span>
-                <span>Terraform</span>
-                <span>Azure DevOps</span>
-                <span>Compliance</span>
-              </div>
+              <h3>Cloud-Native DevOps & Application Platform</h3>
               <p>
-                End-to-end DevOps implementation for Lupin's cloud-native application ecosystem across R&D,
-                supply chain and regulatory compliance workflows.
+                Built and optimized a cloud-native application platform with end-to-end DevOps automation, enabling rapid and reliable delivery of scalable applications with real-time communication and IoT capabilities.
               </p>
-              <ul class="bullets" style="margin-top:10px;">
-                <li>Automated infrastructure provisioning and CI/CD pipelines using Azure, Terraform and Azure DevOps.</li>
-                <li>Supported QA, UAT and production deployments with high availability and rapid releases.</li>
-                <li>Enabled 21 CFR Part 11 compliance for governed delivery workflows.</li>
+              <h4 style="margin:20px 0 12px;font-size:16px;color:var(--text);">Key Contributions & Achievements:</h4>
+              <ul class="bullets" style="margin-top:12px;">
+                <li>Built and managed containerized applications using Azure Kubernetes Service (AKS).</li>
+                <li>Implemented end-to-end CI/CD pipelines with Azure DevOps, reducing deployment time by 75-90%.</li>
+                <li>Automated infrastructure provisioning using Terraform for scalable environments.</li>
+                <li>Developed and supported multiple application modules including authentication, real-time communication (chat/TCP), web-server interactions, polling/voting systems, and IoT-based workflows.</li>
+                <li>Ensured high availability and performance, achieving 99.9% uptime.</li>
+                <li>Collaborated with stakeholders and dev teams to streamline release cycles and delivery pipelines.</li>
               </ul>
             </article>
           </div>
@@ -989,64 +1919,79 @@
 
           <div class="contact-row">
             <div class="panel reveal contact-card">
-              <h3>Email / WhatsApp</h3>
-              <p class="small">
-                Main tumhare message ko jaldi respond karunga. WhatsApp me ek hi click, email me pre-filled subject.
-              </p>
-
+              <h3>Get In Touch</h3>
               <div class="contact-actions">
-                <a class="btn primary" href="mailto:shrishiv09@gmail.com?subject=Portfolio%20Inquiry%20-%20Shiv%20Shrivastava">
-                  <span class="dot" aria-hidden="true"></span>
-                  shrishiv09@gmail.com
-                </a>
-                <a
-                  class="btn"
-                  href="https://wa.me/8770183929?text=Hi%20Shiv,%20I%20want%20to%20connect%20regarding%20DevOps%20opportunity."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  WhatsApp: +91 8770183929
-                </a>
-                <a
-                  class="btn"
-                  href="https://www.linkedin.com/in/shiv-shrivastava-27905574"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  LinkedIn Profile
-                </a>
-                <a class="btn" href="#home">
-                  Back to top
-                </a>
+                <div class="contact-row-top">
+                  <a class="btn email primary" href="mailto:shrishiv09@gmail.com?subject=Portfolio%20Inquiry%20-%20Shiv%20Shrivastava">
+                    <span class="dot" aria-hidden="true"></span>
+                    Email Me
+                  </a>
+                  <a
+                    class="btn whatsapp"
+                    href="https://wa.me/8770183929?text=Hi%20Shiv,%20I%20want%20to%20connect%20regarding%20DevOps%20opportunity."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    WhatsApp
+                  </a>
+                </div>
+                <div class="contact-row-bottom">
+                  <a
+                    class="btn linkedin"
+                    href="https://www.linkedin.com/in/shiv-shrivastava-27905574"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    LinkedIn
+                  </a>
+                  <a
+                    class="btn github"
+                    href="https://github.com/ShivShrivastava"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub
+                  </a>
+                </div>
               </div>
             </div>
 
             <div class="panel reveal contact-card">
-              <h3>Quick Message</h3>
-              <p class="small">
-                No backend needed. This will open your email client with a ready-to-send draft.
+              <h3>Education</h3>
+              <p style="margin:0 0 10px;color:var(--muted);line-height:1.8;font-size:14px;">
+                <strong style="color:var(--text);">Bachelor of Engineering in Computer Science</strong><br>
+                RGPV University
               </p>
+            </div>
 
+            <div class="panel reveal contact-card">
+              <h3>Send Message</h3>
+              <p class="small">Feel free to reach out for any DevOps opportunities or collaborations.</p>
+              
               <form id="contactForm" action="mailto:shrishiv09@gmail.com" method="post" enctype="text/plain">
                 <div class="field">
                   <label for="name">Your Name</label>
-                  <input id="name" name="name" type="text" placeholder="e.g. Rahul" required />
+                  <input id="name" name="name" type="text" placeholder="Your Name" required />
                 </div>
                 <div class="field">
-                  <label for="topic">Topic</label>
-                  <input id="topic" name="topic" type="text" placeholder="e.g. DevOps / Azure CI-CD" required />
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="your@email.com" required />
+                </div>
+                <div class="field">
+                  <label for="subject">Subject</label>
+                  <input id="subject" name="subject" type="text" placeholder="DevOps Opportunity" required />
                 </div>
                 <div class="field">
                   <label for="message">Message</label>
-                  <textarea id="message" name="message" placeholder="Write your message..." required></textarea>
+                  <textarea id="message" name="message" placeholder="Your message here..." required></textarea>
                 </div>
 
                 <div class="form-actions">
                   <button class="btn primary" type="submit">
-                    Send Email Draft
+                    Send Message
                   </button>
                   <button class="btn" type="button" id="resetBtn">
-                    Reset
+                    Clear
                   </button>
                 </div>
               </form>
@@ -1056,10 +2001,6 @@
       </section>
 
     </main>
-
-    <div id="toTop" class="to-top" role="button" tabindex="0" aria-label="Scroll to top">
-      ^
-    </div>
 
     <script>
       // Scroll reveal
@@ -1151,6 +2092,12 @@
         heroCard.addEventListener("mouseleave", () => {
           heroCard.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
         });
+      }
+
+      // Certificate viewing function
+      function viewCertificate(imageName) {
+        const encodedImageName = encodeURIComponent(imageName);
+        window.location.href = 'certificate.html?img=' + encodedImageName;
       }
     </script>
   </body>
